@@ -1,0 +1,16 @@
+[
+    {
+        "title": "Naruto",
+        "genre": "Action",
+        "status": "Terminé",
+        "chapters": 700,
+        "readChapters": 0
+    },
+    {
+        "title": "One Piece",
+        "genre": "Aventure",
+        "status": "En cours",
+        "chapters": 1050,
+        "readChapters": 800
+    }
+]

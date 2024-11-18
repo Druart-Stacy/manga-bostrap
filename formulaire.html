@@ -1,0 +1,144 @@
+<!-- formulaire.html -->
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mangas - Stacy Druart</title>
+    <meta name="description" content="Manga of Stacy Druart">
+
+    <!-- Liens vers les ressources externes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+
+    <!-- Scripts externes -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-primary">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
+            <div class="container-fluid">
+                <button class=" navbar-toggler text-white navbar-dark " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+                <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
+                    <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="index.html">Lecture</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="type.html">Types</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition </a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="formulaire.html">Formulaire</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="collection.html">Collections</a></li>
+                        <!-- Barre de recherche -->
+                        <form role="search" class="d-flex">
+                            <input id="searchBar" class="form-control" type="search" placeholder="Rechercher" aria-label="Search">
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="my-4">Ajouter un Livre</h1>
+        <form id="addDivForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">Titre</label>
+                <input class="form-control" type="text" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Genre</label><br>
+                <input type="checkbox" id="action" name="genre" value="Action">
+                <label for="action">Action</label>
+                <input type="checkbox" id="adventure" name="genre" value="Aventures">
+                <label for="adventure">Aventures</label>
+                <input type="checkbox" id="romance" name="genre" value="Romance">
+                <label for="romance">Romance</label>
+                <input type="checkbox" id="fantasy" name="genre" value="Fantasy">
+                <label for="fantasy">Fantasy</label>
+                <input type="checkbox" id="autre" name="genre" value="autre">
+                <label for="autre">autre</label>
+            </div>
+            <div class="mb-3">
+                <label for="volumes" class="form-label">Nombre de Tomes</label>
+                <input type="number" id="volumes" class="form-control" min="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="author" class="form-label">Auteur</label>
+                <input class="form-control" type="text" id="author" >
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Image</label>
+                <input type="file" id="file" class="form-control" accept="image/* " required>
+            </div>
+            <button type="submit" class="btn btn-primary rounded-pill px-3">Ajouter</button>
+        </form>
+
+        <div id="new-div-container"></div>
+    </div>
+
+    <script>
+        document.getElementById('addDivForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche la soumission du formulaire (rechargement de la page)
+    
+            // Récupérer les valeurs des champs du formulaire
+            const title = document.getElementById('title').value;
+            const volumes = document.getElementById('volumes').value;
+            const description = document.getElementById('description').value;
+            const author = document.getElementById('author').value;
+    
+            // Récupérer les genres sélectionnés
+            const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
+                .map(checkbox => checkbox.value)
+                .join(', ');
+    
+            // Vérification dans la console pour s'assurer que nous avons bien les valeurs
+            console.log('Données récupérées du formulaire:', {title, volumes, description, author, genres});
+    
+            const fileInput = document.getElementById('file');
+            const newBook = {
+                title,
+                volumes,
+                description,
+                author,
+                genres
+            };
+    
+            // Ajouter l'image si elle existe
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newBook.image = e.target.result; // Sauvegarde de l'image en Base64
+                    addBookToLocalStorage(newBook);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                newBook.image = null;
+                addBookToLocalStorage(newBook);
+            }
+        });
+    
+        // Fonction pour ajouter le livre au localStorage
+        function addBookToLocalStorage(bookData) {
+            // Récupérer les livres existants depuis localStorage
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+    
+            // Ajouter le nouveau livre au tableau
+            books.push(bookData);
+    
+            // Sauvegarder le tableau mis à jour dans localStorage
+            localStorage.setItem('books', JSON.stringify(books));
+    
+            // Rediriger vers la page de visualisation
+            window.location.href = 'index.html';
+        }
+    </script>
+    
+    </body>
+    </html>
