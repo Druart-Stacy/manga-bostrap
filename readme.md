@@ -128,7 +128,7 @@ Copier le code
 
 Cela devrait aider à bien comprendre le fonctionnement de cette page et à l'intégrer dans le reste du projet !
 
-
-
+#truc à ajouter : 
+schéma graphique poir voir combien de collection par éditeur et la même parr style 
 
 

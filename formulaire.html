@@ -58,6 +58,42 @@
                 <label for="romance">Romance</label>
                 <input type="checkbox" id="fantasy" name="genre" value="Fantasy">
                 <label for="fantasy">Fantasy</label>
+                <input type="checkbox" id="adventure" name="genre" value="Arts martiaux">
+                <label for="adventure">Arts martiaux</label>
+                <input type="checkbox" id="Mecha" name="genre" value="Mecha">
+                <label for="romance">Mecha</label>
+                <input type="checkbox" id="fantasy" name="genre" value="Surnaturel">
+                <label for="fantasy">Surnaturel</label>
+                <input type="checkbox" id="adventure" name="genre" value="Isekai">
+                <label for="adventure">Isekai</label>
+                <input type="checkbox" id="Drame" name="genre" value="Drame">
+                <label for="romance">Mecha</label>
+                <input type="checkbox" id="Tranche de vie" name="genre" value="Tranche de vie">
+                <label for="fantasy">Tranche de vie</label>
+                <input type="checkbox" id="Psychologique" name="genre" value="Psychologique">
+                <label for="adventure">Psychologique</label>
+                <input type="checkbox" id="Mystere" name="genre" value="Mystère">
+                <label for="romance">Mystère</label>
+                <input type="checkbox" id="Comedie" name="genre" value="Comédie">
+                <label for="fantasy">Comédie</label>
+                <input type="checkbox" id="Parodie" name="genre" value="Parodie">
+                <label for="adventure">Parodie</label>
+                <input type="checkbox" id="Ecchi" name="genre" value="Ecchi">
+                <label for="romance">Ecchi</label>
+                <input type="checkbox" id="Harem" name="genre" value="Harem">
+                <label for="fantasy">Harem</label>
+                <input type="checkbox" id="Sport" name="genre" value="Sport">
+                <label for="adventure">Sport</label>
+                <input type="checkbox" id="Historique" name="genre" value="Historique">
+                <label for="romance">Historique</label>
+                <input type="checkbox" id="Science-fiction" name="genre" value="Science-fiction">
+                <label for="fantasy">Science-fiction</label>
+                <input type="checkbox" id="Musique" name="genre" value="Musique">
+                <label for="adventure">Musique</label>
+                <input type="checkbox" id="Jeux" name="genre" value="Jeux">
+                <label for="romance">Historique</label>
+                <input type="checkbox" id="Idols" name="genre" value="Idols">
+                <label for="fantasy">Idols</label>
                 <input type="checkbox" id="autre" name="genre" value="autre">
                 <label for="autre">autre</label>
             </div>
@@ -124,20 +160,25 @@
             }
         });
     
-        // Fonction pour ajouter le livre au localStorage
-        function addBookToLocalStorage(bookData) {
-            // Récupérer les livres existants depuis localStorage
-            const books = JSON.parse(localStorage.getItem('books')) || [];
+       // Fonction pour ajouter le livre au localStorage
+function addBookToLocalStorage(bookData) {
+    // Récupérer les livres existants depuis localStorage
+    const books = JSON.parse(localStorage.getItem('books')) || [];
     
-            // Ajouter le nouveau livre au tableau
-            books.push(bookData);
-    
-            // Sauvegarder le tableau mis à jour dans localStorage
-            localStorage.setItem('books', JSON.stringify(books));
-    
-            // Rediriger vers la page de visualisation
-            window.location.href = 'index.html';
-        }
+    // Générer un ID unique pour le livre
+    bookData.id = Date.now(); // Utilisation de la date comme identifiant unique
+
+    // Ajouter le nouveau livre au tableau
+    books.push(bookData);
+
+    // Sauvegarder le tableau mis à jour dans localStorage
+    localStorage.setItem('books', JSON.stringify(books));
+
+    // Rediriger vers la page de visualisation
+    window.location.href = `book.html?id=${bookData.id}`;
+}
+
+        
     </script>
     
     </body>

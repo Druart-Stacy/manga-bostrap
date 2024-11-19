@@ -41,12 +41,59 @@
             </div>
         </nav>
         <nav class="navbar">
-          <li class="nav-item"><a class="nav-link text-white fs-5" href="#Aventure">Aventure</a></li>
+            <!-- genre en A -->
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Action">Action</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Arts martiaux">Arts martiaux</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Aventure">Aventure</a></li>
+          <!-- genre en B -->
+        <!-- genre en C -->
           <li class="nav-item"><a class="nav-link text-white fs-5" href="#Comédie">Comédie</a></li>
+          <!-- genre en E -->
+          <li class="nav-item"><a class="nav-link text-white fs-5" href="#Ecchi">Ecchi</a></li>
+
+          <!-- genre en D -->
           <li class="nav-item"><a class="nav-link text-white fs-5" href="#Drame">Drame</a></li>
+          <!-- genre en F -->
           <li class="nav-item"><a class="nav-link text-white fs-5" href="#Fantasy">Fantasy</a></li>
-          <li class="nav-item"><a class="nav-link text-white fs-5" href="#Horreur">Horreur</a></li>
-          <li class="nav-item"><a class="nav-link text-white fs-5" href="#Romance">Romance</a></li>
+           <!-- genre en G -->
+            <!-- genre en H -->
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Harem">Harem</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Historique">Historique</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Horreur">Horreur</a></li>
+             <!-- genre en I -->
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Idols">Idols</a></li>
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Isekai">Isekai</a></li>
+              <!-- genre en J -->
+               <!-- genre en K -->
+         <!-- genre en L -->
+            <!-- genre en M -->
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Mecha">Mecha</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Musique">Musique</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Mystère">Mystère</a></li>
+             <!-- genre en N -->
+            <!-- genre en O -->
+             <!-- genre en P -->
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Parodie">Parodie</a></li>
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Psychologique">Psychologique</a></li>
+            <!-- genre en Q -->
+             <!-- genre en R -->
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Romance">Romance</a></li>
+            <!-- genre en S -->
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Science-fiction">Science-fiction</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Sport">Sport</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#Surnaturel">Surnaturel</a></li>
+             <!-- genre en T -->
+             <li class="nav-item"><a class="nav-link text-white fs-5" href="#Tranche de vie">Tranche de vie</a></li>
+            <!-- genre en U -->
+             <!-- genre en V -->
+            <!-- genre en W -->
+             <!-- genre en X -->
+            <!-- genre en Y -->
+             <!-- genre en Z -->
+        
+          
+          
+          <li class="nav-item"><a class="nav-link text-white fs-5" href="#Autre">autre</a></li>
       </nav>
     </header>
     <section id="Aventure"></section>
@@ -55,6 +102,21 @@
     <section id="Fantasy"></section>
     <section id="Horreur"></section>
     <section id="Romance"></section>
+    <section id="Action"></section>
+    <section id="Arts martiaux"></section>
+    <section id="Mecha"></section>
+    <section id="Surnaturel"></section>
+    <section id="Isekai"></section>
+    <section id="Tranche de vie"></section>
+    <section id="Psychologique"></section>
+    <section id="Mystère"></section>
+    <section id="Comédie"></section>
+    <section id="Parodie"></section>
+    <section id="Ecchi"></section>
+    <section id="Harem"></section>
+    <section id="Sport"></section>
+    <section id="Historique"></section>
+    <section id="Idols"></section>
     <section id="Autres"></section>
 
      <section id="lecture Aventure Comédie Drame Fantasy Horreur Romance Autres">
@@ -68,74 +130,79 @@
     <div id="books-container" class="container my-4"></div>
     
     <script>
+        
       // Récupérer les livres depuis le stockage local
       const books = JSON.parse(localStorage.getItem('books')) || [];
-    
+
       // Conteneur des livres
       const booksContainer = document.getElementById('books-container');
-    
+
       // Fonction pour sauvegarder les livres dans le localStorage
       function saveBooks() {
           localStorage.setItem('books', JSON.stringify(books));
       }
-    
-      // Afficher les livres
+
+      // Afficher tous les livres stockés dans le localStorage
       if (books.length > 0) {
           books.forEach(book => {
               const bookDiv = document.createElement('div');
               bookDiv.classList.add('book-card');
               bookDiv.innerHTML = `
-              <div id="cardContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                  <div class="col">
-                      <div class="card-body">
-                          <h4>${book.title}</h4>
-                          <p><strong>Genres :</strong> ${book.genres}</p>
-                          <p>
-                              <strong>Nombre de Tomes :</strong> 
-                              <input 
-                                  type="number" 
-                                  id="nombreDeTomes-${book.id}" 
-                                  value="${book.volumes}" 
-                                  min="1" 
-                                  style="width: 60px;"
-                              >
-                          </p>
-                          <p><strong>Description :</strong> ${book.description}</p>
-                          <p><strong>Auteur :</strong> ${book.author}</p>
-                          <p>
-                              <strong>Lu :</strong> 
-                              <select id="lu-${book.id}">
-                                  <option value="non" ${book.status === "non" ? "selected" : ""}>non</option>
-                                  <option value="oui" ${book.status === "oui" ? "selected" : ""}>oui</option>
-                                  <option value="encours" ${book.status === "encours" ? "selected" : ""}>encours</option>
-                              </select>
-                          </p>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                      <div class="col">
+                          <div class="card-body">
+                              <h4>${book.title}</h4>
+                              <p><strong>Genres :</strong> ${book.genres}</p>
+                              <p><strong>Nombre de Tomes :</strong> 
+                                  <input 
+                                      type="number" 
+                                      id="nombreDeTomes-${book.id}" 
+                                      value="${book.volumes}" 
+                                      min="1" 
+                                      style="width: 60px;"
+                                  >
+                              </p>
+                              <p><strong>Description :</strong> ${book.description}</p>
+                              <p><strong>Auteur :</strong> ${book.author}</p>
+                              <p>
+                                  <strong>Lu :</strong> 
+                                  <select id="lu-${book.id}">
+                                      <option value="non" ${book.status === "non" ? "selected" : ""}>non</option>
+                                      <option value="oui" ${book.status === "oui" ? "selected" : ""}>oui</option>
+                                      <option value="encours" ${book.status === "encours" ? "selected" : ""}>encours</option>
+                                  </select>
+                              </p>
+                          </div>
+                      </div>
+                      <div class"row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
                       </div>
                   </div>
-              </div>
               `;
-    
+
               // Ajouter une image si elle existe
               if (book.image) {
                   const img = document.createElement('img');
                   img.src = book.image;
                   img.alt = "Image du livre";
-                  img.style.maxWidth = "100%";
+                  img.style.maxWidth = "200px";
                   bookDiv.appendChild(img);
               }
-    
-              // Ajouter les champs dans le DOM
+
+              
+              // Ajouter chaque carte de livre dans le conteneur
               booksContainer.appendChild(bookDiv);
-    
-              // Écouter les changements
+
+              // Écouter les changements de statut de lecture et de nombre de tomes
               const luElement = document.getElementById(`lu-${book.id}`);
               const volumesElement = document.getElementById(`nombreDeTomes-${book.id}`);
-    
+
+              // Mettre à jour les données dans le localStorage lors des modifications
               luElement.addEventListener('change', () => {
                   book.status = luElement.value;
                   saveBooks();
               });
-    
+
               volumesElement.addEventListener('input', () => {
                   book.volumes = parseInt(volumesElement.value, 10);
                   saveBooks();
@@ -144,8 +211,123 @@
       } else {
           booksContainer.innerHTML = `<p class="text-danger">Aucun livre trouvé dans le stockage local.</p>`;
       }
-    </script>
+      // Barre de recherche
+const searchBar = document.getElementById('searchBar');
+
+// Fonction de recherche
+searchBar.addEventListener('input', (event) => {
+    const searchQuery = event.target.value.toLowerCase(); // Récupérer la saisie en minuscules
+    const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(searchQuery) // Chercher par titre
+    );
+
+    // Mettre à jour l'affichage des livres
+    displayBooks(filteredBooks);
+});
+
+// Fonction pour afficher les livres
+function displayBooks(booksToDisplay) {
+    // Vider le conteneur
+    booksContainer.innerHTML = '';
+
+    if (booksToDisplay.length === 0) {
+        booksContainer.innerHTML = `<p class="text-danger">Aucun livre correspondant trouvé.</p>`;
+        return;
+    }
     
+
+    // Afficher les livres filtrés
+    booksToDisplay.forEach(book => {
+        const bookDiv = document.createElement('div');
+        bookDiv.classList.add('book-card');
+        bookDiv.innerHTML = `
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card-body">
+                        <h4>${book.title}</h4>
+                        <p><strong>Genres :</strong> ${book.genres}</p>
+                        <p><strong>Nombre de Tomes :</strong> ${book.volumes}</p>
+                        <p><strong>Description :</strong> ${book.description}</p>
+                        <p><strong>Auteur :</strong> ${book.author}</p>
+                        <a href="book.html">${book}</a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (book.image) {
+            const img = document.createElement('img');
+            img.src = book.image;
+            img.alt = "Image du livre";
+            img.style.maxWidth = "200px";
+            bookDiv.appendChild(img);
+        }
+
+        booksContainer.appendChild(bookDiv);
+    });
+    // Afficher les livres avec un bouton "Détails"
+function displayBooks(booksToDisplay) {
+    booksContainer.innerHTML = ''; // Efface le conteneur
+
+    if (booksToDisplay.length === 0) {
+        booksContainer.innerHTML = `<p class="text-danger">Aucun livre correspondant trouvé.</p>`;
+        return;
+    }
+
+    booksToDisplay.forEach(book => {
+        const bookDiv = document.createElement('div');
+        bookDiv.classList.add('book-card');
+        bookDiv.innerHTML = `
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card-body">
+                        <h4>${book.title}</h4>
+                        <p><strong>Genres :</strong> ${book.genres}</p>
+                        <p><strong>Nombre de Tomes :</strong> ${book.volumes}</p>
+                        <p><strong>Description :</strong> ${book.description}</p>
+                        <p><strong>Auteur :</strong> ${book.author}</p>
+                        <button class="btn btn-primary mt-2" onclick="redirectToDetails('${book.id}')">Détails</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (book.image) {
+            const img = document.createElement('img');
+            img.src = book.image;
+            img.alt = "Image du livre";
+            img.style.maxWidth = "200px";
+            bookDiv.appendChild(img);
+        }
+
+        booksContainer.appendChild(bookDiv);
+    });
+}
+
+// Redirection vers la page des détails
+function redirectToDetails(bookId) {
+    window.location.href = `book.html?id=${bookId}`;
+}
+
+// Générer un ID unique pour chaque livre
+function generateId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Initialisation des livres avec des IDs uniques si manquants
+books.forEach(book => {
+    if (!book.id) {
+        book.id = generateId();
+    }
+});
+saveBooks(); // Sauvegarder les livres avec leurs IDs
+
+}
+
+// Initialisation : Afficher tous les livres au départ
+displayBooks(books);
+
+  </script>
 
 <footer class="bg-secondary text-center p-3">
   <p class="text-light">&copy; 2024 Stacy Druart</p>
