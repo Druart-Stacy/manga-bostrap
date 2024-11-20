@@ -65,60 +65,6 @@
     </div>
 
     <script>
-        // Sauvegarder un livre dans Local Storage
-        function saveBookToLocalStorage(bookData) {
-            const books = JSON.parse(localStorage.getItem('books')) || [];
-            books.push(bookData); // Ajouter le livre au tableau
-            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
-        }
-
-        // Afficher un livre sur la page
-        function displayBook(book) {
-            const container = document.getElementById('book-details');
-
-            // Créer une carte pour afficher le livre
-            const bookCard = document.createElement('div');
-            bookCard.classList.add('card', 'mb-3');
-            bookCard.style.maxWidth = '540px';
-
-            bookCard.innerHTML = `
-                <div class="row g-0">
-                    ${book.image ? `<div class="col-md-4"><img src="${book.image}" class="img-fluid rounded-start" alt="${book.title}"></div>` : ''}
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">${book.title}</h5>
-                            <p class="card-text">${book.description}</p>
-                            <label for="luStatus-${book.id}" class="form-label">Statut de lecture :</label>
-                            <select id="luStatus-${book.id}" class="form-select form-select-sm">
-                                <option value="non" ${book.luStatus === 'non' ? 'selected' : ''}>Non</option>
-                                <option value="oui" ${book.luStatus === 'oui' ? 'selected' : ''}>Oui</option>
-                                <option value="encours" ${book.luStatus === 'encours' ? 'selected' : ''}>En cours</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Gestion des changements de statut
-            const selectElement = bookCard.querySelector(`#luStatus-${book.id}`);
-            selectElement.addEventListener('change', function () {
-                updateBookStatus(book.id, this.value);
-            });
-
-            container.appendChild(bookCard);
-        }
-
-        // Mettre à jour le statut de lecture d'un livre dans Local Storage
-        function updateBookStatus(bookId, newStatus) {
-            const books = JSON.parse(localStorage.getItem('books')) || [];
-            const bookIndex = books.findIndex(book => book.id === bookId);
-
-            if (bookIndex !== -1) {
-                books[bookIndex].luStatus = newStatus; // Mettre à jour le statut
-                localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
-            }
-        }
-
         // Récupérer les données de l'URL
         const urlParams = new URLSearchParams(window.location.search);
         const bookId = parseInt(urlParams.get('id')); // Assurez-vous que l'ID est un nombre entier
@@ -160,10 +106,61 @@
                 container.appendChild(volumeList);
             }
 
+            // Formulaire d'ajout de tome
+            document.getElementById('addTomeForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Récupérer les données du formulaire
+                const volumeNumber = document.getElementById('volumeNumber').value;
+                const volumeDescription = document.getElementById('volumeDescription').value;
+                const volumeFile = document.getElementById('volumeFile');
+
+                const newVolume = {
+                    number: volumeNumber,
+                    description: volumeDescription,
+                    coverImage: null
+                };
+
+                // Ajouter l'image du tome si disponible
+                if (volumeFile.files && volumeFile.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        newVolume.coverImage = e.target.result; // Sauvegarder l'image en Base64
+                        addVolumeToBook(selectedBook, newVolume); // Ajouter le tome au livre
+                    };
+                    reader.readAsDataURL(volumeFile.files[0]);
+                } else {
+                    addVolumeToBook(selectedBook, newVolume); // Ajouter le tome sans image
+                }
+
+                // Réinitialiser le formulaire
+                document.getElementById('addTomeForm').reset();
+            });
+
+            // Ajouter un tome au livre
+            function addVolumeToBook(book, volume) {
+                // Ajouter le volume au tableau des volumes du livre
+                book.volumes = book.volumes || [];
+                book.volumes.push(volume);
+
+                // Sauvegarder le livre modifié dans localStorage
+                const bookIndex = books.findIndex(b => b.id === book.id);
+                if (bookIndex !== -1) {
+                    books[bookIndex] = book; // Mettre à jour le livre
+                    localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder dans localStorage
+                }
+
+                // Recharger les détails avec les nouveaux tomes
+                window.location.reload();
+            }
         } else {
-            document.getElementById('book-details').innerHTML = '<p>Le livre demandé est introuvable.</p>';
+            // Si aucun livre n'est trouvé
+            document.getElementById('book-details').innerHTML = `
+                <p class="text-danger">Livre non trouvé.</p>
+            `;
         }
     </script>
+
 </body>
 
 </html>
