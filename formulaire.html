@@ -85,6 +85,10 @@
                     <input type="checkbox" class="form-check-input" id="horror" value="Horreur">
                     <label class="form-check-label text-white" for="horror">Horreur</label>
                 </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="autre" value="Autre">
+                    <label class="form-check-label text-white" for="autre">Autre</label>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary rounded-pill px-3">Ajouter</button>
@@ -121,6 +125,13 @@
             if (document.getElementById('romance').checked) genres.push("Romance");
             if (document.getElementById('fantasy').checked) genres.push("Fantasy");
             if (document.getElementById('horror').checked) genres.push("Horreur");
+            if (document.getElementById('autre').checked) genres.push("Autre");
+
+            // Vérifier que des genres ont été sélectionnés
+            if (genres.length === 0) {
+                alert("Veuillez sélectionner au moins un genre.");
+                return;
+            }
 
             const newBook = {
                 id: Date.now(), // Identifiant unique
@@ -154,36 +165,25 @@
         function saveBookToLocalStorage(bookData) {
             const books = JSON.parse(localStorage.getItem('books')) || [];
             books.push(bookData); // Ajouter le livre au tableau
-            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
+            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder dans localStorage
         }
 
-        // Afficher un livre sur la page
+        // Afficher un livre
         function displayBook(book) {
-            const container = document.getElementById('new-div-container');
-
-            // Créer une carte pour afficher le livre
-            const bookCard = document.createElement('div');
-            bookCard.classList.add('card', 'mb-3');
-            bookCard.style.maxWidth = '540px';
-
-            bookCard.innerHTML = `
-                <div class="row g-0">
-                    ${book.image ? `<div class="col-md-4"><img src="${book.image}" class="img-fluid rounded-start" alt="${book.title}"></div>` : ''}
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">${book.title}</h5>
-                            <p class="card-text">${book.description}</p>
-                            <p><strong>Genres:</strong> ${book.genres.join(', ')}</p>
-                            <p><strong>Collection:</strong> ${book.collection}</p>
-                            <p><strong>Status:</strong> ${book.luStatus}</p>
-                            <a href="book.html?id=${book.id}" class="btn btn-primary">Voir Détails</a>
-                        </div>
-                    </div>
-                </div>
+            const bookDiv = document.createElement('div');
+            bookDiv.classList.add('book');
+            bookDiv.innerHTML = `
+                <h3 class="text-white">${book.title}</h3>
+                <p class="text-white">${book.description}</p>
+                <p class="text-white">Collection: ${book.collection}</p>
+                <p class="text-white">Genres: ${book.genres.join(", ")}</p>
+                ${book.image ? `<img src="${book.image}" class="img-fluid rounded-start" alt="Image du livre">` : ''}
+                <hr>
             `;
-            container.appendChild(bookCard);
+            document.getElementById('new-div-container').appendChild(bookDiv);
         }
     </script>
+
 </body>
 
 </html>
