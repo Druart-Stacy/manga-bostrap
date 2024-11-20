@@ -1,4 +1,3 @@
-<!-- formulaire.html -->
 <!doctype html>
 <html lang="fr">
 
@@ -22,17 +21,16 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
             <div class="container-fluid">
-                <button class=" navbar-toggler text-white navbar-dark " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler text-white navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon "></span>
                 </button>
                 <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
                     <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="index.html">Lecture</a></li>
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="type.html">Types</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition </a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition</a></li>
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="formulaire.html">Formulaire</a></li>
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="collection.html">Collections</a></li>
-                        <!-- Barre de recherche -->
                         <form role="search" class="d-flex">
                             <input id="searchBar" class="form-control" type="search" placeholder="Rechercher" aria-label="Search">
                         </form>
@@ -41,145 +39,151 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
-        <h1 class="my-4">Ajouter un Livre</h1>
+        <h1 class="my-4 text-white">Ajouter un Livre</h1>
         <form id="addDivForm">
             <div class="mb-3">
-                <label for="title" class="form-label">Titre</label>
+                <label for="title" class="form-label text-white">Titre</label>
                 <input class="form-control" type="text" id="title" required>
             </div>
+
             <div class="mb-3">
-                <label class="form-label">Genre</label><br>
-                <input type="checkbox" id="action" name="genre" value="Action">
-                <label for="action">Action</label>
-                <input type="checkbox" id="adventure" name="genre" value="Aventures">
-                <label for="adventure">Aventures</label>
-                <input type="checkbox" id="romance" name="genre" value="Romance">
-                <label for="romance">Romance</label>
-                <input type="checkbox" id="fantasy" name="genre" value="Fantasy">
-                <label for="fantasy">Fantasy</label>
-                <input type="checkbox" id="adventure" name="genre" value="Arts martiaux">
-                <label for="adventure">Arts martiaux</label>
-                <input type="checkbox" id="Mecha" name="genre" value="Mecha">
-                <label for="romance">Mecha</label>
-                <input type="checkbox" id="fantasy" name="genre" value="Surnaturel">
-                <label for="fantasy">Surnaturel</label>
-                <input type="checkbox" id="adventure" name="genre" value="Isekai">
-                <label for="adventure">Isekai</label>
-                <input type="checkbox" id="Drame" name="genre" value="Drame">
-                <label for="romance">Mecha</label>
-                <input type="checkbox" id="Tranche de vie" name="genre" value="Tranche de vie">
-                <label for="fantasy">Tranche de vie</label>
-                <input type="checkbox" id="Psychologique" name="genre" value="Psychologique">
-                <label for="adventure">Psychologique</label>
-                <input type="checkbox" id="Mystere" name="genre" value="Mystère">
-                <label for="romance">Mystère</label>
-                <input type="checkbox" id="Comedie" name="genre" value="Comédie">
-                <label for="fantasy">Comédie</label>
-                <input type="checkbox" id="Parodie" name="genre" value="Parodie">
-                <label for="adventure">Parodie</label>
-                <input type="checkbox" id="Ecchi" name="genre" value="Ecchi">
-                <label for="romance">Ecchi</label>
-                <input type="checkbox" id="Harem" name="genre" value="Harem">
-                <label for="fantasy">Harem</label>
-                <input type="checkbox" id="Sport" name="genre" value="Sport">
-                <label for="adventure">Sport</label>
-                <input type="checkbox" id="Historique" name="genre" value="Historique">
-                <label for="romance">Historique</label>
-                <input type="checkbox" id="Science-fiction" name="genre" value="Science-fiction">
-                <label for="fantasy">Science-fiction</label>
-                <input type="checkbox" id="Musique" name="genre" value="Musique">
-                <label for="adventure">Musique</label>
-                <input type="checkbox" id="Jeux" name="genre" value="Jeux">
-                <label for="romance">Historique</label>
-                <input type="checkbox" id="Idols" name="genre" value="Idols">
-                <label for="fantasy">Idols</label>
-                <input type="checkbox" id="autre" name="genre" value="autre">
-                <label for="autre">autre</label>
-            </div>
-            <div class="mb-3">
-                <label for="volumes" class="form-label">Nombre de Tomes</label>
-                <input type="number" id="volumes" class="form-control" min="1" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label text-white">Description</label>
                 <textarea class="form-control" id="description" rows="3"></textarea>
             </div>
+
             <div class="mb-3">
-                <label for="author" class="form-label">Auteur</label>
-                <input class="form-control" type="text" id="author" >
+                <label for="file" class="form-label text-white">Image</label>
+                <input type="file" id="file" class="form-control" accept="image/*" required>
             </div>
             <div class="mb-3">
-                <label for="file" class="form-label">Image</label>
-                <input type="file" id="file" class="form-control" accept="image/* " required>
+                <label for="collection" class="form-label text-white">Collection</label>
+                <input class="form-control" type="text" id="collection" required>
             </div>
+
+            <!-- Genres -->
+            <div class="mb-3">
+                <label class="form-label text-white">Genres</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="action" value="Action">
+                    <label class="form-check-label text-white" for="action">Action</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="adventure" value="Aventures">
+                    <label class="form-check-label text-white" for="adventure">Aventures</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="romance" value="Romance">
+                    <label class="form-check-label text-white" for="romance">Romance</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="fantasy" value="Fantasy">
+                    <label class="form-check-label text-white" for="fantasy">Fantasy</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="horror" value="Horreur">
+                    <label class="form-check-label text-white" for="horror">Horreur</label>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary rounded-pill px-3">Ajouter</button>
         </form>
 
-        <div id="new-div-container"></div>
+        <div id="new-div-container" class="mt-4"></div>
     </div>
 
     <script>
-        document.getElementById('addDivForm').addEventListener('submit', function(event) {
+        // Initialiser les livres dans Local Storage si vide
+        if (!localStorage.getItem('books')) {
+            localStorage.setItem('books', JSON.stringify([]));
+        }
+
+        // Charger les livres existants au démarrage
+        document.addEventListener('DOMContentLoaded', function () {
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            books.forEach(displayBook); // Afficher chaque livre sauvegardé
+        });
+
+        // Ajouter un livre via le formulaire
+        document.getElementById('addDivForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Empêche la soumission du formulaire (rechargement de la page)
-    
+
             // Récupérer les valeurs des champs du formulaire
             const title = document.getElementById('title').value;
-            const volumes = document.getElementById('volumes').value;
             const description = document.getElementById('description').value;
-            const author = document.getElementById('author').value;
-    
-            // Récupérer les genres sélectionnés
-            const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
-                .map(checkbox => checkbox.value)
-                .join(', ');
-    
-            // Vérification dans la console pour s'assurer que nous avons bien les valeurs
-            console.log('Données récupérées du formulaire:', {title, volumes, description, author, genres});
-    
+            const collection = document.getElementById('collection').value;
             const fileInput = document.getElementById('file');
+            
+            const genres = [];
+            if (document.getElementById('action').checked) genres.push("Action");
+            if (document.getElementById('adventure').checked) genres.push("Aventures");
+            if (document.getElementById('romance').checked) genres.push("Romance");
+            if (document.getElementById('fantasy').checked) genres.push("Fantasy");
+            if (document.getElementById('horror').checked) genres.push("Horreur");
+
             const newBook = {
+                id: Date.now(), // Identifiant unique
                 title,
-                volumes,
                 description,
-                author,
-                genres
+                collection,
+                genres,
+                image: null, // Par défaut
+                luStatus: "non" // Statut par défaut
             };
-    
+
             // Ajouter l'image si elle existe
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     newBook.image = e.target.result; // Sauvegarde de l'image en Base64
-                    addBookToLocalStorage(newBook);
+                    saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
+                    displayBook(newBook); // Afficher directement le livre
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                newBook.image = null;
-                addBookToLocalStorage(newBook);
+                saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
+                displayBook(newBook); // Afficher directement le livre
             }
+
+            // Réinitialiser le formulaire après ajout
+            document.getElementById('addDivForm').reset();
         });
-    
-       // Fonction pour ajouter le livre au localStorage
-function addBookToLocalStorage(bookData) {
-    // Récupérer les livres existants depuis localStorage
-    const books = JSON.parse(localStorage.getItem('books')) || [];
-    
-    // Générer un ID unique pour le livre
-    bookData.id = Date.now(); // Utilisation de la date comme identifiant unique
 
-    // Ajouter le nouveau livre au tableau
-    books.push(bookData);
+        // Sauvegarder un livre dans Local Storage
+        function saveBookToLocalStorage(bookData) {
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            books.push(bookData); // Ajouter le livre au tableau
+            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
+        }
 
-    // Sauvegarder le tableau mis à jour dans localStorage
-    localStorage.setItem('books', JSON.stringify(books));
+        // Afficher un livre sur la page
+        function displayBook(book) {
+            const container = document.getElementById('new-div-container');
 
-    // Rediriger vers la page de visualisation
-    window.location.href = `book.html?id=${bookData.id}`;
-}
+            // Créer une carte pour afficher le livre
+            const bookCard = document.createElement('div');
+            bookCard.classList.add('card', 'mb-3');
+            bookCard.style.maxWidth = '540px';
 
-        
+            bookCard.innerHTML = `
+                <div class="row g-0">
+                    ${book.image ? `<div class="col-md-4"><img src="${book.image}" class="img-fluid rounded-start" alt="${book.title}"></div>` : ''}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.title}</h5>
+                            <p class="card-text">${book.description}</p>
+                            <p><strong>Genres:</strong> ${book.genres.join(', ')}</p>
+                            <p><strong>Collection:</strong> ${book.collection}</p>
+                            <p><strong>Status:</strong> ${book.luStatus}</p>
+                            <a href="book.html?id=${book.id}" class="btn btn-primary">Voir Détails</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(bookCard);
+        }
     </script>
-    
-    </body>
-    </html>
+</body>
+
+</html>
