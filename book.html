@@ -1,3 +1,4 @@
+<!-- book.html -->
 <!doctype html>
 <html lang="fr">
 
@@ -5,22 +6,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mangas - Stacy Druart</title>
+    <meta name="description" content="Manga of Stacy Druart">
 
     <!-- Liens vers les ressources externes -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="Assets/src/style.css">
+
+    <!-- Scripts externes -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-primary">
     <header>
         <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
             <div class="container-fluid">
-                <button class="navbar-toggler text-white navbar-dark " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class=" navbar-toggler text-white navbar-dark " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon "></span>
                 </button>
                 <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
                     <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#">Formulaire</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="index.html">Lecture</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="type.html">Types</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition </a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="formulaire.html">Formulaire</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="collection.html">Collections</a></li>
+                        <!-- Barre de recherche -->
+                        <form role="search" class="d-flex">
+                            <input id="searchBar" class="form-control" type="search" placeholder="Rechercher" aria-label="Search">
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -33,102 +48,40 @@
                 <label for="title" class="form-label text-white">Titre</label>
                 <input class="form-control" type="text" id="title" required>
             </div>
-        
+
             <div class="mb-3">
                 <label for="description" class="form-label text-white">Description</label>
                 <textarea class="form-control" id="description" rows="3"></textarea>
             </div>
-            
+
             <div class="mb-3">
                 <label for="file" class="form-label text-white">Image</label>
                 <input type="file" id="file" class="form-control" accept="image/*" required>
             </div>
+            <div class="mb-3">
+                <label for="collection" class="form-label text-white">Collection</label>
+                <input class="form-control" type="text" id="collection" required>
+            </div>
             <button type="submit" class="btn btn-primary rounded-pill px-3">Ajouter</button>
         </form>
-        <label for="lu">Avez-vous lu le livre ?</label>
-        <select id="lu">
-            <option value="">non</option>
-            <option value="oui">oui</option>
-            <option value="encours">encours</option>
-          </select>
 
         <div id="new-div-container" class="mt-4"></div>
     </div>
 
-    <div class="container my-4">
-        <h1 class="text-light text-center">Gestion des Tomes</h1>
-        <ul id="tome-list" class="list-group"></ul>
-    </div>
-
     <script>
-        // Exemple de tomes sauvegardés dans localStorage
-        const tomesExample = [
-            { id: 1, name: "Tome 1", number: 1, luStatus: "non" },
-            { id: 2, name: "Tome 2", number: 2, luStatus: "oui" },
-            { id: 3, name: "Tome 3", number: 3, luStatus: "encours" }
-        ];
-
-        // Initialiser localStorage si vide
-        if (!localStorage.getItem('tomes')) {
-            localStorage.setItem('tomes', JSON.stringify(tomesExample));
+        // Initialiser les livres dans Local Storage si vide
+        if (!localStorage.getItem('books')) {
+            localStorage.setItem('books', JSON.stringify([]));
         }
 
-        // Récupérer les tomes depuis localStorage
-        const tomes = JSON.parse(localStorage.getItem('tomes'));
-
-        // Sélectionner la liste des tomes dans le DOM
-        const tomeList = document.getElementById('tome-list');
-
-        // Fonction pour afficher les tomes
-        function displayTomes() {
-            tomeList.innerHTML = ''; // Vider la liste
-
-            tomes.forEach(tome => {
-                // Créer un élément de liste pour chaque tome
-                const listItem = document.createElement('li');
-                listItem.classList.add('list-group-item', 'bg-secondary', 'text-light', 'd-flex', 'justify-content-between', 'align-items-center');
-
-                // Contenu principal du tome
-                const tomeContent = `
-                    <div>
-                        <strong>${tome.number} - ${tome.name}</strong>
-                    </div>
-                `;
-
-                // Création du <select> pour l'état de lecture
-                const select = document.createElement('select');
-                select.classList.add('form-select', 'form-select-sm', 'w-25');
-                select.innerHTML = `
-                    <option value="non" ${tome.luStatus === 'non' ? 'selected' : ''}>non</option>
-                    <option value="oui" ${tome.luStatus === 'oui' ? 'selected' : ''}>oui</option>
-                    <option value="encours" ${tome.luStatus === 'encours' ? 'selected' : ''}>encours</option>
-                `;
-
-                // Écouter les changements sur le <select>
-                select.addEventListener('change', (event) => {
-                    tome.luStatus = event.target.value; // Mettre à jour l'état dans le tableau
-                    localStorage.setItem('tomes', JSON.stringify(tomes)); // Sauvegarder dans localStorage
-                    console.log(`État du tome ${tome.number} mis à jour : ${tome.luStatus}`);
-                });
-
-                // Ajouter le contenu principal et le <select> à l'élément de liste
-                listItem.innerHTML = tomeContent;
-                listItem.appendChild(select);
-
-                // Ajouter l'élément à la liste
-                tomeList.appendChild(listItem);
-            });
-        }
-
-        // Afficher les tomes au chargement de la page
-        displayTomes();
         // Charger les livres existants au démarrage
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const books = JSON.parse(localStorage.getItem('books')) || [];
             books.forEach(displayBook); // Afficher chaque livre sauvegardé
         });
 
-        document.getElementById('addDivForm').addEventListener('submit', function(event) {
+        // Ajouter un livre via le formulaire
+        document.getElementById('addDivForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Empêche la soumission du formulaire (rechargement de la page)
 
             // Récupérer les valeurs des champs du formulaire
@@ -137,22 +90,24 @@
             const fileInput = document.getElementById('file');
 
             const newBook = {
+                id: Date.now(), // Identifiant unique
                 title,
                 description,
+                image: null, // Par défaut
+                luStatus: "non" // Statut par défaut
             };
 
             // Ajouter l'image si elle existe
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     newBook.image = e.target.result; // Sauvegarde de l'image en Base64
-                    saveBookToLocalStorage(newBook); // Sauvegarder dans localStorage
+                    saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
                     displayBook(newBook); // Afficher directement le livre
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                newBook.image = null;
-                saveBookToLocalStorage(newBook); // Sauvegarder dans localStorage
+                saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
                 displayBook(newBook); // Afficher directement le livre
             }
 
@@ -160,22 +115,14 @@
             document.getElementById('addDivForm').reset();
         });
 
-        // Fonction pour sauvegarder le livre dans localStorage
+        // Sauvegarder un livre dans Local Storage
         function saveBookToLocalStorage(bookData) {
-            // Récupérer les livres existants depuis localStorage
             const books = JSON.parse(localStorage.getItem('books')) || [];
-
-            // Générer un ID unique pour le livre
-            bookData.id = Date.now(); // Utilisation de la date comme identifiant unique
-
-            // Ajouter le nouveau livre au tableau
-            books.push(bookData);
-
-            // Sauvegarder le tableau mis à jour dans localStorage
-            localStorage.setItem('books', JSON.stringify(books));
+            books.push(bookData); // Ajouter le livre au tableau
+            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
         }
 
-        // Fonction pour afficher le livre directement sur la page
+        // Afficher un livre sur la page
         function displayBook(book) {
             const container = document.getElementById('new-div-container');
 
@@ -191,30 +138,82 @@
                         <div class="card-body">
                             <h5 class="card-title">${book.title}</h5>
                             <p class="card-text">${book.description}</p>
+                            <label for="luStatus-${book.id}" class="form-label">Statut de lecture :</label>
+                            <select id="luStatus-${book.id}" class="form-select form-select-sm">
+                                <option value="non" ${book.luStatus === 'non' ? 'selected' : ''}>Non</option>
+                                <option value="oui" ${book.luStatus === 'oui' ? 'selected' : ''}>Oui</option>
+                                <option value="encours" ${book.luStatus === 'encours' ? 'selected' : ''}>En cours</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             `;
 
+            // Gestion des changements de statut
+            const selectElement = bookCard.querySelector(`#luStatus-${book.id}`);
+            selectElement.addEventListener('change', function () {
+                updateBookStatus(book.id, this.value);
+            });
+
             container.appendChild(bookCard);
         }
-         // Charger la valeur sélectionnée depuis localStorage au démarrage
-         document.addEventListener('DOMContentLoaded', function () {
-            const selectElement = document.getElementById('lu');
-            const savedValue = localStorage.getItem('luStatus'); // Récupérer la valeur sauvegardée
 
-            if (savedValue) {
-                selectElement.value = savedValue; // Appliquer la valeur sauvegardée au champ <select>
+        // Mettre à jour le statut de lecture d'un livre dans Local Storage
+        function updateBookStatus(bookId, newStatus) {
+            const books = JSON.parse(localStorage.getItem('books')) || [];
+            const bookIndex = books.findIndex(book => book.id === bookId);
+
+            if (bookIndex !== -1) {
+                books[bookIndex].luStatus = newStatus; // Mettre à jour le statut
+                localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder
             }
+        }
+        // Récupérer les données de l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const bookId = urlParams.get('id');
 
-            // Écouter les changements et sauvegarder dans localStorage
-            selectElement.addEventListener('change', function () {
-                const selectedValue = selectElement.value; // Récupérer la valeur actuelle
-                localStorage.setItem('luStatus', selectedValue); // Sauvegarder dans localStorage
-                console.log(`Valeur sauvegardée : ${selectedValue}`);
-            });
-        });
+// Récupérer les livres depuis localStorage
+const books = JSON.parse(localStorage.getItem('books')) || [];
+
+// Trouver le livre correspondant à l'ID
+const selectedBook = books.find(book => book.id === bookId);
+
+if (selectedBook) {
+    // Afficher les détails du livre
+    const container = document.getElementById('book-details');
+    container.innerHTML = `
+        <h2>${selectedBook.title}</h2>
+        <p><strong>Description:</strong> ${selectedBook.description}</p>
+        <p><strong>Genres:</strong> ${selectedBook.genres || 'N/A'}</p>
+        <p><strong>Nombre de Tomes:</strong> ${selectedBook.volumes || 'N/A'}</p>
+        <p><strong>Auteur:</strong> ${selectedBook.author || 'N/A'}</p>
+    `;
+
+    // Ajouter une image si disponible
+    if (selectedBook.image) {
+        const img = document.createElement('img');
+        img.src = selectedBook.image;
+        img.alt = `${selectedBook.title} cover`;
+        img.style.maxWidth = "300px";
+        container.appendChild(img);
+    }
+} else {
+    // Si aucun livre n'est trouvé
+    document.getElementById('book-details').innerHTML = `
+        <p class="text-danger">Livre non trouvé.</p>
+    `;
+}
+const collection = document.getElementById('collection').value;
+const newBook = {
+    id: Date.now(), // Identifiant unique
+    title,
+    description,
+    collection, // Ajouter la collection
+    image: null,
+    luStatus: "non"
+};
     </script>
+
 </body>
 
 </html>

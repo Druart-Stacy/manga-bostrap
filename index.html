@@ -10,7 +10,7 @@
 
     <!-- Liens vers les ressources externes -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="Assets/src/style.css">
 
     <!-- Scripts externes -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -131,141 +131,7 @@
     
     <script>
         
-      // Récupérer les livres depuis le stockage local
-      const books = JSON.parse(localStorage.getItem('books')) || [];
-
-      // Conteneur des livres
-      const booksContainer = document.getElementById('books-container');
-
-      // Fonction pour sauvegarder les livres dans le localStorage
-      function saveBooks() {
-          localStorage.setItem('books', JSON.stringify(books));
-      }
-
-      // Afficher tous les livres stockés dans le localStorage
-      if (books.length > 0) {
-          books.forEach(book => {
-              const bookDiv = document.createElement('div');
-              bookDiv.classList.add('book-card');
-              bookDiv.innerHTML = `
-                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                      <div class="col">
-                          <div class="card-body">
-                              <h4>${book.title}</h4>
-                              <p><strong>Genres :</strong> ${book.genres}</p>
-                              <p><strong>Nombre de Tomes :</strong> 
-                                  <input 
-                                      type="number" 
-                                      id="nombreDeTomes-${book.id}" 
-                                      value="${book.volumes}" 
-                                      min="1" 
-                                      style="width: 60px;"
-                                  >
-                              </p>
-                              <p><strong>Description :</strong> ${book.description}</p>
-                              <p><strong>Auteur :</strong> ${book.author}</p>
-                              <p>
-                                  <strong>Lu :</strong> 
-                                  <select id="lu-${book.id}">
-                                      <option value="non" ${book.status === "non" ? "selected" : ""}>non</option>
-                                      <option value="oui" ${book.status === "oui" ? "selected" : ""}>oui</option>
-                                      <option value="encours" ${book.status === "encours" ? "selected" : ""}>encours</option>
-                                  </select>
-                              </p>
-                          </div>
-                      </div>
-                      <div class"row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-                      </div>
-                  </div>
-              `;
-
-              // Ajouter une image si elle existe
-              if (book.image) {
-                  const img = document.createElement('img');
-                  img.src = book.image;
-                  img.alt = "Image du livre";
-                  img.style.maxWidth = "200px";
-                  bookDiv.appendChild(img);
-              }
-
-              
-              // Ajouter chaque carte de livre dans le conteneur
-              booksContainer.appendChild(bookDiv);
-
-              // Écouter les changements de statut de lecture et de nombre de tomes
-              const luElement = document.getElementById(`lu-${book.id}`);
-              const volumesElement = document.getElementById(`nombreDeTomes-${book.id}`);
-
-              // Mettre à jour les données dans le localStorage lors des modifications
-              luElement.addEventListener('change', () => {
-                  book.status = luElement.value;
-                  saveBooks();
-              });
-
-              volumesElement.addEventListener('input', () => {
-                  book.volumes = parseInt(volumesElement.value, 10);
-                  saveBooks();
-              });
-          });
-      } else {
-          booksContainer.innerHTML = `<p class="text-danger">Aucun livre trouvé dans le stockage local.</p>`;
-      }
-      // Barre de recherche
-const searchBar = document.getElementById('searchBar');
-
-// Fonction de recherche
-searchBar.addEventListener('input', (event) => {
-    const searchQuery = event.target.value.toLowerCase(); // Récupérer la saisie en minuscules
-    const filteredBooks = books.filter(book =>
-        book.title.toLowerCase().includes(searchQuery) // Chercher par titre
-    );
-
-    // Mettre à jour l'affichage des livres
-    displayBooks(filteredBooks);
-});
-
-// Fonction pour afficher les livres
-function displayBooks(booksToDisplay) {
-    // Vider le conteneur
-    booksContainer.innerHTML = '';
-
-    if (booksToDisplay.length === 0) {
-        booksContainer.innerHTML = `<p class="text-danger">Aucun livre correspondant trouvé.</p>`;
-        return;
-    }
-    
-
-    // Afficher les livres filtrés
-    booksToDisplay.forEach(book => {
-        const bookDiv = document.createElement('div');
-        bookDiv.classList.add('book-card');
-        bookDiv.innerHTML = `
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col">
-                    <div class="card-body">
-                        <h4>${book.title}</h4>
-                        <p><strong>Genres :</strong> ${book.genres}</p>
-                        <p><strong>Nombre de Tomes :</strong> ${book.volumes}</p>
-                        <p><strong>Description :</strong> ${book.description}</p>
-                        <p><strong>Auteur :</strong> ${book.author}</p>
-                        <a href="book.html">${book}</a>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        if (book.image) {
-            const img = document.createElement('img');
-            img.src = book.image;
-            img.alt = "Image du livre";
-            img.style.maxWidth = "200px";
-            bookDiv.appendChild(img);
-        }
-
-        booksContainer.appendChild(bookDiv);
-    });
-    // Afficher les livres avec un bouton "Détails"
+// Fonction pour afficher les livres avec filtrage pour ne montrer qu'un tome par collection
 function displayBooks(booksToDisplay) {
     booksContainer.innerHTML = ''; // Efface le conteneur
 
@@ -274,14 +140,25 @@ function displayBooks(booksToDisplay) {
         return;
     }
 
+    const displayedCollections = new Set(); // Pour suivre les collections affichées
+
     booksToDisplay.forEach(book => {
+        const collectionKey = book.title.toLowerCase(); // Clé unique pour chaque collection (ex: titre)
+
+        // Vérifie si la collection a déjà été affichée
+        if (displayedCollections.has(collectionKey)) {
+            return; // Ignore les tomes supplémentaires
+        }
+
+        displayedCollections.add(collectionKey); // Ajoute cette collection comme affichée
+
         const bookDiv = document.createElement('div');
         bookDiv.classList.add('book-card');
         bookDiv.innerHTML = `
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col">
                     <div class="card-body">
-                        <h4>${book.title}</h4>
+                        <h4>${book.title} (Tome 1)</h4> <!-- Affiche Tome 1 explicitement -->
                         <p><strong>Genres :</strong> ${book.genres}</p>
                         <p><strong>Nombre de Tomes :</strong> ${book.volumes}</p>
                         <p><strong>Description :</strong> ${book.description}</p>
@@ -309,23 +186,67 @@ function redirectToDetails(bookId) {
     window.location.href = `book.html?id=${bookId}`;
 }
 
-// Générer un ID unique pour chaque livre
-function generateId() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
-
-// Initialisation des livres avec des IDs uniques si manquants
-books.forEach(book => {
-    if (!book.id) {
-        book.id = generateId();
-    }
-});
-saveBooks(); // Sauvegarder les livres avec leurs IDs
-
-}
-
-// Initialisation : Afficher tous les livres au départ
+// Initialisation : Afficher les livres avec la restriction par collection
 displayBooks(books);
+// Fonction pour afficher les livres avec filtrage pour ne montrer qu'un tome par collection
+function displayBooks(booksToDisplay) {
+    booksContainer.innerHTML = ''; // Efface le conteneur
+
+    if (booksToDisplay.length === 0) {
+        booksContainer.innerHTML = `<p class="text-danger">Aucun livre correspondant trouvé.</p>`;
+        return;
+    }
+
+    const displayedCollections = new Set(); // Pour suivre les collections affichées
+
+    booksToDisplay.forEach(book => {
+        const collectionKey = book.title.toLowerCase(); // Clé unique pour chaque collection (ex: titre)
+
+        // Vérifie si la collection a déjà été affichée
+        if (displayedCollections.has(collectionKey)) {
+            return; // Ignore les tomes supplémentaires
+        }
+
+        displayedCollections.add(collectionKey); // Ajoute cette collection comme affichée
+
+        const bookDiv = document.createElement('div');
+        bookDiv.classList.add('book-card');
+        bookDiv.innerHTML = `
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card-body">
+                        <h4>${book.title} (Tome 1)</h4> <!-- Affiche Tome 1 explicitement -->
+                        <p><strong>Genres :</strong> ${book.genres}</p>
+                        <p><strong>Nombre de Tomes :</strong> ${book.volumes}</p>
+                        <p><strong>Description :</strong> ${book.description}</p>
+                        <p><strong>Auteur :</strong> ${book.author}</p>
+                        <button class="btn btn-primary mt-2" onclick="redirectToDetails('${book.id}')">Détails</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (book.image) {
+            const img = document.createElement('img');
+            img.src = book.image;
+            img.alt = "Image du livre";
+            img.style.maxWidth = "200px";
+            bookDiv.appendChild(img);
+        }
+
+        booksContainer.appendChild(bookDiv);
+    });
+}
+
+// Redirection vers la page des détails
+function redirectToDetails(bookId) {
+    window.location.href = `book.html?id=${bookId}`;
+}
+
+// Initialisation : Afficher les livres avec la restriction par collection
+displayBooks(books);
+
+
 
   </script>
 
