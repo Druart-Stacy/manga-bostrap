@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
             <div class="container-fluid">
                 <button class="navbar-toggler text-white navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon "></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
                     <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
@@ -41,6 +41,10 @@
     </header>
 
     <div class="container">
+        <div class="Tome-container">
+            <p class="text-white">Lu</p>
+            <div id="TomeDisplay" class="Tome-display text-white">None selected</div>
+        </div>
         <h1 class="my-4 text-white">Ajouter un Livre</h1>
         <form id="addDivForm">
             <div class="mb-3">
@@ -50,7 +54,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label text-white">Description</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
+                <textarea class="form-control" id="description" rows="3" required></textarea>
             </div>
 
             <div class="mb-3">
@@ -98,85 +102,49 @@
     </div>
 
     <script>
-        // Initialiser les livres dans Local Storage si vide
-        if (!localStorage.getItem('books')) {
-            localStorage.setItem('books', JSON.stringify([]));
-        }
+        if (!localStorage.getItem('books')) localStorage.setItem('books', JSON.stringify([]));
 
-        // Charger les livres existants au démarrage
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', () => {
             const books = JSON.parse(localStorage.getItem('books')) || [];
-            books.forEach(displayBook); // Afficher chaque livre sauvegardé
+            books.forEach(displayBook);
         });
 
-        // Ajouter un livre via le formulaire
-        document.getElementById('addDivForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Empêche la soumission du formulaire (rechargement de la page)
-
-            // Récupérer les valeurs des champs du formulaire
+        document.getElementById('addDivForm').addEventListener('submit', (event) => {
+            event.preventDefault();
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const collection = document.getElementById('collection').value;
             const fileInput = document.getElementById('file');
-            
-            const genres = [];
-            if (document.getElementById('action').checked) genres.push("Action");
-            if (document.getElementById('adventure').checked) genres.push("Aventures");
-            if (document.getElementById('romance').checked) genres.push("Romance");
-            if (document.getElementById('fantasy').checked) genres.push("Fantasy");
-            if (document.getElementById('horror').checked) genres.push("Horreur");
-            if (document.getElementById('autre').checked) genres.push("Autre");
+            const genres = Array.from(document.querySelectorAll('.form-check-input:checked')).map(checkbox => checkbox.value);
+            if (genres.length === 0) return alert("Veuillez sélectionner au moins un genre.");
 
-            // Vérifier que des genres ont été sélectionnés
-            if (genres.length === 0) {
-                alert("Veuillez sélectionner au moins un genre.");
-                return;
-            }
-
-            const newBook = {
-                id: Date.now(), // Identifiant unique
-                title,
-                description,
-                collection,
-                genres,
-                image: null, // Par défaut
-                luStatus: "non" // Statut par défaut
-            };
-
-            // Ajouter l'image si elle existe
-            if (fileInput.files && fileInput.files[0]) {
+            const newBook = { id: Date.now(), title, description, collection, genres, image: null,  };
+            if (fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    newBook.image = e.target.result; // Sauvegarde de l'image en Base64
-                    saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
-                    displayBook(newBook); // Afficher directement le livre
+                reader.onload = (e) => {
+                    newBook.image = e.target.result;
+                    saveBook(newBook);
                 };
                 reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                saveBookToLocalStorage(newBook); // Sauvegarder dans Local Storage
-                displayBook(newBook); // Afficher directement le livre
-            }
-
-            // Réinitialiser le formulaire après ajout
+            } else saveBook(newBook);
             document.getElementById('addDivForm').reset();
         });
 
-        // Sauvegarder un livre dans Local Storage
-        function saveBookToLocalStorage(bookData) {
+        function saveBook(book) {
             const books = JSON.parse(localStorage.getItem('books')) || [];
-            books.push(bookData); // Ajouter le livre au tableau
-            localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder dans localStorage
+            books.push(book);
+            localStorage.setItem('books', JSON.stringify(books));
+            displayBook(book);
         }
 
-        // Afficher un livre
         function displayBook(book) {
             const bookDiv = document.createElement('div');
-            bookDiv.classList.add('book');
+            bookDiv.className = 'book mt-3';
             bookDiv.innerHTML = `
                 <h3 class="text-white">${book.title}</h3>
                 <p class="text-white">${book.description}</p>
                 <p class="text-white">Collection: ${book.collection}</p>
-                <p class="text-white">Genres: ${book.genres.join(", ")}</p>
+                <p class="text-white">Genres: ${book.genres.join(', ')}</p>
                 ${book.image ? `<img src="${book.image}" class="img-fluid rounded-start" alt="Image du livre">` : ''}
                 <hr>
             `;

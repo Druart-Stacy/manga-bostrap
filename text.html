@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalStorage Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .Tome-container {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .Tome-display {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Select Your Tome (With LocalStorage)</h1>
+
+  <!-- Dropdown for tome -->
+  <select id="TomeSelect">
+    <option value="non">non</option>
+    <option value="oui">oui</option>
+    <option value="encour">encour</option>
+    
+  </select>
+
+  <!-- Display Selected Tome -->
+  <div class="Tome-container">
+    <p>lu</p>
+    <div id="TomeDisplay" class="Tome-display">None selected</div>
+  </div>
+
+  <script>
+    const TomeSelect = document.getElementById('TomeSelect');
+    const TomeDisplay = document.getElementById('TomeDisplay');
+
+    // Load saved Tome from localStorage on page load
+    const savedTome = localStorage.getItem('selectedTome');
+    if (savedTome) {
+      TomeDisplay.textContent = savedTome.charAt(0).toUpperCase() + savedTome.slice(1);
+      TomeSelect.value = savedTome;
+    }
+
+    // Save Tome to localStorage and update display
+    TomeSelect.addEventListener('change', () => {
+      const selectedTome = TomeSelect.value;
+
+      if (selectedTome !== 'default') {
+        localStorage.setItem('selectedTome', selectedTome);
+        TomeDisplay.textContent = selectedTome.charAt(0).toUpperCase() + selectedTome.slice(1);
+      }
+    });
+  </script>
+
+</body>
+</html>

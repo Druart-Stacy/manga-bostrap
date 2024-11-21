@@ -1,3 +1,11 @@
 .bg-primary {
-  background-color: #1E90FF !important;
+  background-color: #f5efe6 !important;
+}
+
+.bg-secondary {
+  background-color: #D5CABC !important;
+}
+
+.text-white {
+  color: #2a3543 !important;
 }/*# sourceMappingURL=style.css.map */

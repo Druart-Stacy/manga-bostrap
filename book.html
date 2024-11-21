@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-light">
+<body class="bg-primary">
 
     <header>
         <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
@@ -42,7 +42,7 @@
         <div id="book-details">
             <!-- Détails du livre seront ajoutés ici -->
         </div>
-
+    
         <!-- Formulaire pour ajouter un tome -->
         <div id="add-tome-form" class="mt-5">
             <h3>Ajouter un Tome</h3>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="volumeDescription" class="form-label">Description du Tome</label>
-                    <textarea class="form-control" id="volumeDescription" rows="3" required></textarea>
+                    <textarea class="form-control" id="volumeDescription" rows="3" ></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="volumeFile" class="form-label">Couverture du Tome</label>
@@ -63,18 +63,18 @@
             </form>
         </div>
     </div>
-
+    
     <script>
         // Récupérer les données de l'URL
         const urlParams = new URLSearchParams(window.location.search);
         const bookId = parseInt(urlParams.get('id')); // Assurez-vous que l'ID est un nombre entier
-
+    
         // Charger les livres depuis localStorage
         const books = JSON.parse(localStorage.getItem('books')) || [];
         
         // Trouver le livre correspondant à l'ID
         const selectedBook = books.find(book => book.id === bookId);
-
+    
         if (selectedBook) {
             // Afficher les détails du livre
             const container = document.getElementById('book-details');
@@ -86,41 +86,50 @@
                         <p><strong>Description:</strong> ${selectedBook.description}</p>
                         <p><strong>Genres:</strong> ${selectedBook.genres ? selectedBook.genres.join(', ') : 'N/A'}</p>
                         <p><strong>Collection:</strong> ${selectedBook.collection}</p>
-                        <p><strong>Status:</strong> ${selectedBook.luStatus}</p>
+                        
                         <p><strong>Nombre de Tomes:</strong> ${selectedBook.volumes ? selectedBook.volumes.length : 0}</p>
                     </div>
                 </div>
             `;
-
-            // Afficher les tomes existants
+    
+            // Afficher les tomes existants avec leurs statuts
             if (selectedBook.volumes && selectedBook.volumes.length > 0) {
                 const volumeList = document.createElement('ul');
-                selectedBook.volumes.forEach(volume => {
+                selectedBook.volumes.forEach((volume, index) => {
                     const volumeItem = document.createElement('li');
+                    const savedStatus = localStorage.getItem(`status_tome_${bookId}_${volume.number}`) || "non";
+                    
                     volumeItem.innerHTML = `
                         <strong>Tome ${volume.number}</strong>: ${volume.description}
                         ${volume.coverImage ? `<br><img src="${volume.coverImage}" style="max-width: 100px;">` : ''}
+                        <br>
+                        <label for="statusTome${index}">Statut:</label>
+                        <select id="statusTome${index}" class="form-select status-tome" data-tome-number="${volume.number}">
+                            <option value="non" ${savedStatus === "non" ? "selected" : ""}>Non lu</option>
+                            <option value="encour" ${savedStatus === "encour" ? "selected" : ""}>En cours</option>
+                            <option value="oui" ${savedStatus === "oui" ? "selected" : ""}>Lu</option>
+                        </select>
                     `;
                     volumeList.appendChild(volumeItem);
                 });
                 container.appendChild(volumeList);
             }
-
+    
             // Formulaire d'ajout de tome
             document.getElementById('addTomeForm').addEventListener('submit', function (event) {
                 event.preventDefault();
-
+    
                 // Récupérer les données du formulaire
                 const volumeNumber = document.getElementById('volumeNumber').value;
                 const volumeDescription = document.getElementById('volumeDescription').value;
                 const volumeFile = document.getElementById('volumeFile');
-
+    
                 const newVolume = {
                     number: volumeNumber,
                     description: volumeDescription,
                     coverImage: null
                 };
-
+    
                 // Ajouter l'image du tome si disponible
                 if (volumeFile.files && volumeFile.files[0]) {
                     const reader = new FileReader();
@@ -132,27 +141,36 @@
                 } else {
                     addVolumeToBook(selectedBook, newVolume); // Ajouter le tome sans image
                 }
-
+    
                 // Réinitialiser le formulaire
                 document.getElementById('addTomeForm').reset();
             });
-
+    
             // Ajouter un tome au livre
             function addVolumeToBook(book, volume) {
                 // Ajouter le volume au tableau des volumes du livre
                 book.volumes = book.volumes || [];
                 book.volumes.push(volume);
-
+    
                 // Sauvegarder le livre modifié dans localStorage
                 const bookIndex = books.findIndex(b => b.id === book.id);
                 if (bookIndex !== -1) {
                     books[bookIndex] = book; // Mettre à jour le livre
                     localStorage.setItem('books', JSON.stringify(books)); // Sauvegarder dans localStorage
                 }
-
+    
                 // Recharger les détails avec les nouveaux tomes
                 window.location.reload();
             }
+    
+            // Sauvegarder et charger le statut des tomes
+            document.querySelectorAll('.status-tome').forEach(selectElement => {
+                selectElement.addEventListener('change', event => {
+                    const tomeNumber = event.target.getAttribute('data-tome-number');
+                    const status = event.target.value;
+                    localStorage.setItem(`status_tome_${bookId}_${tomeNumber}`, status);
+                });
+            });
         } else {
             // Si aucun livre n'est trouvé
             document.getElementById('book-details').innerHTML = `
@@ -160,7 +178,7 @@
             `;
         }
     </script>
-
+    
 </body>
 
 </html>
