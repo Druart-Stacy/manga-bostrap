@@ -27,10 +27,13 @@
                 <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
                     <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="index.html">Lecture</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="type.html">Types</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition</a></li>
+                        <!-- type.html -->
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="404.html">Types</a></li>
+                        <!-- #edition -->
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="404.html">Maison d'édition</a></li>
                         <li class="nav-item"><a class="nav-link text-white fs-5" href="formulaire.html">Formulaire</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="collection.html">Collections</a></li>
+                        <!-- collection.html -->
+                        <li class="nav-item"><a class="nav-link text-white fs-5" href="404.html">Collections</a></li>
                         
                         <div class="search-container">
                             <input type="text" id="search-bar" placeholder="Rechercher..." onkeyup="searchText()">
@@ -45,32 +48,14 @@
         <h1 class="my-4 bg-secondary text-white p-3">Liste des Livres</h1>
         <div id="book-list" class="row">
             <!-- Les livres seront ajoutés ici via JavaScript -->
+             
         </div>
+        <button>modifer</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // const sampleBooks = [
-            //     {
-            //         id: 1,
-            //         title: "Naruto",
-            //         description: "Un ninja avec un rêve de devenir Hokage.",
-            //         image: "https://via.placeholder.com/150"
-            //     },
-            //     {
-            //         id: 2,
-            //         title: "One Piece",
-            //         description: "Une aventure pour trouver le One Piece.",
-            //         image: "https://via.placeholder.com/150"
-            //     },
-            //     {
-            //         id: 3,
-            //         title: "Demon Slayer",
-            //         description: "Un garçon combat des démons pour sauver sa sœur.",
-            //         image: "https://via.placeholder.com/150"
-            //     }
-            // ];
-
+            
             // Enregistrer des livres d'exemple dans localStorage si localStorage est vide
             if (!localStorage.getItem('books')) {
                 localStorage.setItem('books', JSON.stringify(sampleBooks));

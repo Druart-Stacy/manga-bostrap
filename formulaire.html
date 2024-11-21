@@ -41,10 +41,7 @@
     </header>
 
     <div class="container">
-        <div class="Tome-container">
-            <p class="text-white">Lu</p>
-            <div id="TomeDisplay" class="Tome-display text-white">None selected</div>
-        </div>
+        
         <h1 class="my-4 text-white">Ajouter un Livre</h1>
         <form id="addDivForm">
             <div class="mb-3">
@@ -64,6 +61,29 @@
             <div class="mb-3">
                 <label for="collection" class="form-label text-white">Collection</label>
                 <input class="form-control" type="text" id="collection" required>
+            </div>
+            <div class="mb-3">
+                <label for="editeur" class="form-label text-white">Editeur</label>
+                <select name="editeur" id="editeur">
+                    <option value="choix">choix de l'éditeur</option>
+                    <option value="Akata">Akata</option>
+                    <option value="Casterman">Casterman</option>
+                    <option value="Crunchyroll">Crunchyroll</option>
+                    <option value="Delcourt">Delcourt</option>
+                    <option value="Doki Doki">Doki Doki</option>
+                    <option value="GLÉNAT">GLÉNAT</option>
+                    <option value="Hachette">Hachette</option>
+                    <option value="Hua Shu">Hua Shu</option>
+                    <option value="Kana">Kana</option>
+                    <option value="Kazé">Kazé</option>
+                    <option value="Ki-oon">Ki-oon</option>
+                    <option value="PANINI">PANINI</option>
+                    <option value="Pika Edition">Pika Edition</option>
+                    <option value="Sakka">Sakka</option>
+                    <option value="Soleil">Soleil</option>
+                    <option value="Tonkam">Tonkam</option>
+                    <option value="Autre">Autre</option>
+                </select>
             </div>
 
             <!-- Genres -->
@@ -148,7 +168,7 @@
                 ${book.image ? `<img src="${book.image}" class="img-fluid rounded-start" alt="Image du livre">` : ''}
                 <hr>
             `;
-            document.getElementById('new-div-container').appendChild(bookDiv);
+           
         }
     </script>
 
