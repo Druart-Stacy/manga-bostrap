@@ -38,13 +38,13 @@
         </nav>
     </header>
 
-    <div class="container mt-4">
+    <div class="container mt-4 bg-primary">
         <div id="book-details">
             <!-- Détails du livre seront ajoutés ici -->
         </div>
     
         <!-- Formulaire pour ajouter un tome -->
-        <div id="add-tome-form" class="mt-5">
+        <div id="add-tome-form" class="mt-5 ">
             <h3>Ajouter un Tome</h3>
             <form id="addTomeForm">
                 <div class="mb-3">
@@ -59,7 +59,7 @@
                     <label for="volumeFile" class="form-label">Couverture du Tome</label>
                     <input type="file" class="form-control" id="volumeFile" accept="image/*" required>
                 </div>
-                <button type="submit" class="btn btn-primary rounded-pill px-3">Ajouter le Tome</button>
+                <button type="submit" class="btn btn-dark rounded-pill px-3">Ajouter le Tome</button>
             </form>
         </div>
     </div>
@@ -86,7 +86,6 @@
                         <p><strong>Description:</strong> ${selectedBook.description}</p>
                         <p><strong>Genres:</strong> ${selectedBook.genres ? selectedBook.genres.join(', ') : 'N/A'}</p>
                         <p><strong>Collection:</strong> ${selectedBook.collection}</p>
-                        
                         <p><strong>Nombre de Tomes:</strong> ${selectedBook.volumes ? selectedBook.volumes.length : 0}</p>
                     </div>
                 </div>
@@ -95,6 +94,7 @@
             // Afficher les tomes existants avec leurs statuts
             if (selectedBook.volumes && selectedBook.volumes.length > 0) {
                 const volumeList = document.createElement('ul');
+                volumeList.classList.add('volume-list'); // Ajout d'une classe spécifique
                 selectedBook.volumes.forEach((volume, index) => {
                     const volumeItem = document.createElement('li');
                     const savedStatus = localStorage.getItem(`status_tome_${bookId}_${volume.number}`) || "non";
