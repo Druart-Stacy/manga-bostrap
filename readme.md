@@ -24,6 +24,8 @@ La page **formulaire.html** permet aux utilisateurs d'ajouter un nouveau manga �
 - **Auteur :** Le nom de l'auteur.
 - **Image :** Un champ pour télécharger une image du manga.
 
+la page *book.html** permet de suivre et d'ajouter des tomes d'une meme colllection mais egalement de changer les information(img,description,)
+
 ### Fonctionnement du formulaire
 Lorsqu'un utilisateur remplit le formulaire et clique sur "Ajouter", les données sont collectées et stockées dans le `localStorage`. L'image téléchargée est convertie en Base64 et sauvegardée sous forme de chaîne de caractères.
 
@@ -126,7 +128,7 @@ Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 ## Trucs à ajouter
 Voici des idées supplémentaires pour enrichir le projet :
 1. **Schémas graphiques :**
-   - Ajouter un graphique interactif pour visualiser le nombre de mangas par maison d'édition.
+   - Ajouter un graphique interactif  par maison d'édition.
    - Intégrer un graphique pour comparer les mangas par genre.
 
 2. **Compteur de tomes à lire :**
@@ -135,7 +137,7 @@ Voici des idées supplémentaires pour enrichir le projet :
 
 3. **Édition des informations :**
    - Permettre la modification des informations des mangas (titre, description, etc.).
-   - Ajouter un bouton "Modifier" sur chaque carte de manga.
+   
 
 4. **Recherche avancée :**
    - Ajouter une barre de recherche pour filtrer les mangas genre.
@@ -146,6 +148,8 @@ Voici des idées supplémentaires pour enrichir le projet :
 
 6. **Partage :**
    - Intégrer des options de partage sur les réseaux sociaux (ex. : partager un manga via Facebook ou Twitter).
+7. **Autres :**
+   -visualiser le nombre de mangas ex: 1/20
 
 
 

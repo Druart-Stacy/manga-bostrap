@@ -71,6 +71,7 @@
 
         <div id="book-details">
             <!-- Détails du livre seront ajoutés ici -->
+             
         </div>
     
         <!-- Formulaire pour ajouter un tome -->
@@ -89,6 +90,20 @@
                     <label for="volumeFile" class="form-label">Couverture du Tome</label>
                     <input type="file" class="form-control" id="volumeFile" accept="image/*" required>
                 </div>
+                <div class="mb-3">
+                    <label for="publisherSelect" class="form-label">Maison d'édition</label>
+                    <select class="form-select" id="publisherSelect" required>
+                        <option value="" disabled selected>Choisissez une maison d'édition</option>
+                        <option value="Shueisha">Shueisha</option>
+                        <option value="Kodansha">Kodansha</option>
+                        <option value="Square Enix">Square Enix</option>
+                        <option value="Shogakukan">Shogakukan</option>
+                        <option value="Glénat">Glénat</option>
+                        <option value="Kana">Kana</option>
+                        <option value="Kurokawa">Kurokawa</option>
+                    </select>
+                </div>
+                
                 <button type="submit" class="btn btn-dark rounded-pill px-3">Ajouter le Tome</button>
             </form>
         </div>
@@ -129,10 +144,12 @@
                 selectedBook.volumes.forEach((volume, index) => {
                     const volumeItem = document.createElement('li');
                     const savedStatus = localStorage.getItem(`status_tome_${bookId}_${volume.number}`) || "non";
+                    // const Editeur = localStorage.getItem('editeur_${bookId}')
                     
                     volumeItem.innerHTML = `
                         <strong>Tome ${volume.number}</strong>: ${volume.description}
                         ${volume.coverImage ? `<br><img src="${volume.coverImage}" style="max-width: 100px;">` : ''}
+                        <p><strong>Maison d'édition:</strong> ${volume.publisher || 'Non spécifiée'}</p>
                         <br>
                         <label for="statusTome${index}">Statut:</label>
                         <select id="statusTome${index}" class="form-select status-tome" data-tome-number="${volume.number}">
@@ -154,10 +171,13 @@
                 const volumeNumber = document.getElementById('volumeNumber').value;
                 const volumeDescription = document.getElementById('volumeDescription').value;
                 const volumeFile = document.getElementById('volumeFile');
-    
+                const selectedPublisher = document.getElementById('publisherSelect').value; // Récupère la maison d'édition
                 const newVolume = {
                     number: volumeNumber,
                     description: volumeDescription,
+                    // ajout
+                    publisher: selectedPublisher,
+                    // fin da jout
                     coverImage: null
                 };
     
@@ -279,10 +299,14 @@ selectedBook.volumes.forEach((volume, index) => {
         editButton.addEventListener('click', () => openEditForm(selectedBook, volume));
         volumeItem.appendChild(editButton);
     }
+    
 });
 
     </script>
     
+    <footer class="py-3 my-4">
+        <p class="text-center text-body-secondary">© 2024 Mangatecheque, By DragonBleu98</p>
+    </footer>
 </body>
 
 </html>
