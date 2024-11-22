@@ -1,0 +1,57 @@
+<div id="book-details"></div>
+<button id="editButton" class="btn btn-primary">Modifier</button>
+<form id="addTomeForm">
+    <input type="number" id="volumeNumber" placeholder="Numéro du Tome">
+    <input type="text" id="volumeDescription" placeholder="Description du Tome">
+    <input type="file" id="volumeFile">
+    <button type="submit">Ajouter Tome</button>
+</form>
+
+<script>
+    // Ajout de l'écouteur d'événements pour le bouton Modifier
+    document.getElementById('editButton').addEventListener('click', function () {
+        const isEditable = this.getAttribute('data-editable') === 'true';
+        
+        // Passer en mode édition ou sauvegarde
+        if (!isEditable) {
+            // Passer les champs en mode éditable
+            const fields = document.querySelectorAll('#book-details .card-body > p, #book-details h2');
+            fields.forEach(field => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = field.textContent.replace(/^.+?:\s/, ''); // Supprime le label si présent
+                input.dataset.label = field.innerHTML.match(/^<strong>(.+?):<\/strong>/)?.[1] || null;
+                field.replaceWith(input);
+            });
+
+            this.textContent = 'Sauvegarder';
+            this.setAttribute('data-editable', 'true');
+        } else {
+            // Sauvegarder les modifications
+            const inputs = document.querySelectorAll('#book-details input');
+            inputs.forEach(input => {
+                const label = input.dataset.label;
+                const value = input.value;
+                const field = document.createElement('p');
+                field.innerHTML = label ? `<strong>${label}:</strong> ${value}` : value;
+                input.replaceWith(field);
+
+                // Sauvegarde dans l'objet `selectedBook`
+                const key = label.toLowerCase().replace(/ /g, '_'); // Mapper le label à une clé
+                if (key in selectedBook) {
+                    selectedBook[key] = value;
+                }
+            });
+
+            // Mise à jour dans localStorage
+            const bookIndex = books.findIndex(b => b.id === selectedBook.id);
+            if (bookIndex !== -1) {
+                books[bookIndex] = selectedBook;
+                localStorage.setItem('books', JSON.stringify(books));
+            }
+
+            this.textContent = 'Modifier';
+            this.setAttribute('data-editable', 'false');
+        }
+    });
+</script>
