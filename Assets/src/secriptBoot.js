@@ -76,6 +76,7 @@ if (selectedBook) {
         });
         container.appendChild(volumeList);
     }
+    
 
     // Formulaire d'ajout de tome
     document.getElementById('addTomeForm').addEventListener('submit', function (event) {
@@ -218,4 +219,33 @@ function saveChanges() {
             openEditForm(selectedBook, volumeToEdit);
         });
     });
+    
+    
+
+
+
+    // nombre de tome lu non-lu  encour et total 
+    
+     // Compter les cases à cocher (tomes total)
+     $(document).ready(function () {
+        function countLus() {
+            let tomesLus = 0;
+
+            // Parcourir toutes les cases à cocher et compter celles qui sont cochées et ont la valeur "lu"
+            $('.form-check-input').each(function() {
+                if ($(this).prop('checked') && $(this).val() === 'lu') {
+                    tomesLus++;
+                }
+            });
+
+            // Afficher le nombre de tomes lus
+            $('#counter').text(tomesLus);
+        }
+
+        // Compter les tomes lorsqu'on clique sur le bouton
+        $('#countTomes').click(function() {
+            countLus();
+        });
+    });
+
     
