@@ -2,64 +2,62 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi des Tomes Lu</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Page Dynamique</title>
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h1 class="mb-4">Suivi des Tomes Lu</h1>
-
-        <!-- Liste de Tomes -->
-        <div id="tome-list">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="statusTomeLu1">
-                <label class="form-check-label" for="statusTomeLu1">Tome 1: Lu</label>
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" id="statusTomeLu2">
-                <label class="form-check-label" for="statusTomeLu2">Tome 2: Lu</label>
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" id="statusTomeLu3">
-                <label class="form-check-label" for="statusTomeLu3">Tome 3: Lu</label>
-            </div>
-            <!-- Ajoutez d'autres tomes ici si nécessaire -->
+<body>
+    <div id="contenu">
+        <div class="article">
+            <h2>Titre de l'article 1</h2>
+            <p>Contenu de l'article 1</p>
         </div>
-
-        <!-- Affichage du nombre de tomes lus -->
-        <div class="mt-4">
-            <h4>Tomes lus : <span id="counter">0</span></h4>
-            <button id="countTomes" class="btn btn-primary mt-2">Compter les Tomes Lus</button>
+        <div class="article">
+            <h2>Titre de l'article 2</h2>
+            <p>Contenu de l'article 2</p>
         </div>
+        <!-- Plus d'articles peuvent être ajoutés dynamiquement via JavaScript -->
     </div>
-
-    <!-- Bootstrap JS + jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Compter les cases à cocher (tomes lus)
-        $(document).ready(function () {
-            function countLus() {
-                let tomesLus = 0;
-
-                // Parcourir toutes les cases à cocher et compter celles qui sont cochées
-                $('.form-check-input').each(function() {
-                    if ($(this).prop('checked')) {
-                        tomesLus++;
-                    }
-                });
-
-                // Afficher le nombre de tomes lus
-                $('#counter').text(tomesLus);
-            }
-
-            // Compter les tomes lorsqu'on clique sur le bouton
-            $('#countTomes').click(function() {
-                countLus();
+    <script>// Fonction pour récupérer les titres des articles
+        function recupererTitres() {
+            const titres = [];  // Un tableau pour stocker les titres
+        
+            // Sélectionner tous les éléments avec la classe "article"
+            const articles = document.querySelectorAll('.article h2');
+        
+            // Parcourir les articles et récupérer le texte des titres
+            articles.forEach(article => {
+                titres.push(article.textContent);  // Ajouter chaque titre au tableau
             });
-        });
-    </script>
+        
+            return titres;
+        }
+        
+        // Afficher les titres dans la console
+        console.log(recupererTitres());
+        
+        // Supposons qu'un nouvel article soit ajouté dynamiquement
+        setTimeout(() => {
+            const nouveauArticle = document.createElement('div');
+            nouveauArticle.classList.add('article');
+            nouveauArticle.innerHTML = `<h2>Titre de l'article 3</h2><p>Contenu de l'article 3</p>`;
+        
+            // Ajouter le nouvel article à la page
+            document.getElementById('contenu').appendChild(nouveauArticle);
+        
+            // Re-récupérer les titres après l'ajout dynamique
+            console.log(recupererTitres());
+        }, 2000);  // Ajouter un nouvel article après 2 secondes
+
+        // Exemple avec fetch pour récupérer des données via AJAX
+fetch('https://exemple.com/api/articles')
+    .then(response => response.json())  // Assumer que la réponse est au format JSON
+    .then(data => {
+        // Stocker les titres dans un tableau
+        const titres = data.map(article => article.titre);
+        console.log(titres);
+    })
+    .catch(error => console.error('Erreur de récupération des données:', error));
+
+        </script>
+   
 </body>
 </html>

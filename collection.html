@@ -1,3 +1,5 @@
+<!-- collection.html -->
+<!-- le diagramme doi conenire le nombre de tomes de chaue -->
 <!doctype html>
 <html lang="fr">
 
@@ -52,32 +54,58 @@
             </div>
         </div>
     </div>
-    
+   
     <script>
+         // Étape 1 : Sélectionner les éléments contenant les maisons d'édition
+    const publishers = document.querySelectorAll('#publisherContainer p');
+
+// Étape 2 : Extraire les noms des maisons d'édition
+const publisherNames = [];
+publishers.forEach(p => {
+    const text = p.textContent.replace('Maison d\'édition:', '').trim(); // Enlever "Maison d'édition:" et espaces inutiles
+    publisherNames.push(text === 'Non spécifiée' ? 'Inconnue' : text); // Remplacer "Non spécifiée" par "Inconnue"
+});
+
+// Étape 3 : Créer un tableau des occurrences pour chaque maison d'édition
+const publisherCounts = {};
+publisherNames.forEach(name => {
+    publisherCounts[name] = (publisherCounts[name] || 0) + 1; // Compter les occurrences
+});
+
+// Étape 4 : Préparer les données pour le graphique
+const labels = Object.keys(publisherCounts); // Les labels pour le graphique
+const data = Object.values(publisherCounts); // Les valeurs correspondantes
         // Données pour le graphique
         var ctx = document.getElementById('myPieChart').getContext('2d');
-var myPieChart = new Chart(ctx, {
+let myPieChart = new Chart(ctx, {
     type: 'pie', // Type de graphique
     data: {
         labels: [
-            'Akata', 'Crunchyroll', 'Kana', 'GLÉNAT', 'Casterman', 
-            'Delcourt', 'Doki Doki', 'Hachette', 'Hua Shu','Autres'
+            'Akata', 'Crunchyroll', 'Kana', 'GLÉNAT', 'Kurokawa', 
+            'Delcourt', 'Doki Doki', 'Pika', 'Ki-oon','Autres'
         ], // Étiquettes
+
+        // Définir un tableau des maisons d'édition avec leur index dans les données du graphique
+   
+
+
+
+        
         datasets: [{
             label: 'Répartition des maisons d\'édition',
             data: [12, 19, 8, 15, 10,
              5, 6, 7, 3, 5], // Données ajustées
             backgroundColor: [
                 'rgba(255, 99, 132, 0.6)', // Akata - Rouge clair
-                'rgba(255, 102, 0, 0.6)',  // Crunchyroll - Orange
+                'rgba(224,192,166, 0.6)',  // Crunchyroll - Orange
                 'rgba(255, 206, 86, 0.6)', // Kana - Jaune
                 'rgba(75, 192, 192, 0.6)', // GLÉNAT - Vert
-                'rgba(102, 153, 153, 0.6)', // Casterman - Gris
+                'rgba(102, 153, 153, 0.6)', // Kurokawa - Gris
 
                 'rgba(153, 102, 255, 0.6)', // Delcourt - Violet
                 'rgba(255, 159, 64, 0.6)',  // Doki Doki - Orange foncé
-                'rgba(54, 162, 235, 0.6)',  // Hachette - Bleu
-                'rgba(153, 102, 50, 0.6)',   // Hua Shu - Brun clair
+                'rgba(54, 162, 235, 0.6)',  // Pika- Bleu
+                'rgba(153, 102, 50, 0.6)',   // Ki-oon - Brun clair
                 'rgba(153, 0, 51, 0.6)'   // autres - 
             ],
             borderColor: [
@@ -85,17 +113,19 @@ var myPieChart = new Chart(ctx, {
                 'rgba(255, 102, 0, 1)',   // Crunchyroll
                 'rgba(255, 206, 86, 1)',  // Kana
                 'rgba(75, 192, 192, 1)',  // GLÉNAT
-                'rgba(102, 153, 153, 1)', // Casterman
+                'rgba(102, 153, 153, 1)', // Kurokawa
 
                 'rgba(153, 102, 255, 1)', // Delcourt
                 'rgba(255, 159, 64, 1)',  // Doki Doki
                 'rgba(54, 162, 235, 1)',  // Hachette
-                'rgba(153, 102, 50, 1)',   // Hua Shu
+                'rgba(153, 102, 50, 1)',   // Ki-oon
                 'rgba(153, 0, 51, 1)',   // autre
             ],
             borderWidth: 1 // Épaisseur des bordures
         }]
+        
     },
+    
     options: {
         responsive: true, // Le graphique s'adapte à la taille de l'écran
         plugins: {
@@ -116,7 +146,7 @@ var myPieChart = new Chart(ctx, {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <div class="container mt-4 bg-primary">
-        <!-- Modale de modification 
+        Modale de modification 
 <div class="modal fade" id="editTomeModal" tabindex="-1" aria-labelledby="editTomeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         </div></div></div> -->
