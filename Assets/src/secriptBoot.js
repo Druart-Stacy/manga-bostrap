@@ -70,7 +70,7 @@ if (selectedBook) {
                     <label class="form-check-label" for="statusTomeEnCours${index}">En Cours</label>
                     
                 </div>
-                 <button class="btn btn-primary edit-tome-button" data-index="${index}">Modifier</button>
+                 <button class="btn btn-dark edit-tome-button" data-index="${index}">Modifier</button>
             `;
             volumeList.appendChild(volumeItem);
         });

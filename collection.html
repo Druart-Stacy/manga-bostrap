@@ -1,161 +1,107 @@
-<!-- collection.html -->
-<!-- le diagramme doi conenire le nombre de tomes de chaue -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Détails du Manga</title>
-    <meta name="description" content="Détails d'un manga de Stacy Druart">
-
-    <!-- Liens vers les ressources externes -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="Assets/src/style.css">
-
-    <!-- Scripts externes -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- Inclure Chart.js -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique des Éditeurs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-</head>
-
-<body class="bg-primary">
-
-    <header>
-        <nav class="navbar navbar-expand-lg bg-secondary bg-opacity-10">
-            <div class="container-fluid">
-                <button class="navbar-toggler text-white navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon "></span>
-                </button>
-                <div class="collapse navbar-collapse d-lg-flex w-100" id="navbarNav">
-                    <ul class="navbar-nav d-flex justify-content-between align-items-center gap-1 w-100 mb-0">
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="index.html">Lecture</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="type.html">Types</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="#edition">Maison d'édition</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="formulaire.html">Formulaire</a></li>
-                        <li class="nav-item"><a class="nav-link text-white fs-5" href="collection.html">Collections</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12 col-md-8 offset-md-2">
-                <h3 class="text-center">Diagramme des maisons d'édition</h3>
-                <canvas id="myPieChart"></canvas>
-
-            </div>
-        </div>
-    </div>
-   
-    <script>
-         // Étape 1 : Sélectionner les éléments contenant les maisons d'édition
-    const publishers = document.querySelectorAll('#publisherContainer p');
-
-// Étape 2 : Extraire les noms des maisons d'édition
-const publisherNames = [];
-publishers.forEach(p => {
-    const text = p.textContent.replace('Maison d\'édition:', '').trim(); // Enlever "Maison d'édition:" et espaces inutiles
-    publisherNames.push(text === 'Non spécifiée' ? 'Inconnue' : text); // Remplacer "Non spécifiée" par "Inconnue"
-});
-
-// Étape 3 : Créer un tableau des occurrences pour chaque maison d'édition
-const publisherCounts = {};
-publisherNames.forEach(name => {
-    publisherCounts[name] = (publisherCounts[name] || 0) + 1; // Compter les occurrences
-});
-
-// Étape 4 : Préparer les données pour le graphique
-const labels = Object.keys(publisherCounts); // Les labels pour le graphique
-const data = Object.values(publisherCounts); // Les valeurs correspondantes
-        // Données pour le graphique
-        var ctx = document.getElementById('myPieChart').getContext('2d');
-let myPieChart = new Chart(ctx, {
-    type: 'pie', // Type de graphique
-    data: {
-        labels: [
-            'Akata', 'Crunchyroll', 'Kana', 'GLÉNAT', 'Kurokawa', 
-            'Delcourt', 'Doki Doki', 'Pika', 'Ki-oon','Autres'
-        ], // Étiquettes
-
-        // Définir un tableau des maisons d'édition avec leur index dans les données du graphique
-   
-
-
-
-        
-        datasets: [{
-            label: 'Répartition des maisons d\'édition',
-            data: [12, 19, 8, 15, 10,
-             5, 6, 7, 3, 5], // Données ajustées
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.6)', // Akata - Rouge clair
-                'rgba(224,192,166, 0.6)',  // Crunchyroll - Orange
-                'rgba(255, 206, 86, 0.6)', // Kana - Jaune
-                'rgba(75, 192, 192, 0.6)', // GLÉNAT - Vert
-                'rgba(102, 153, 153, 0.6)', // Kurokawa - Gris
-
-                'rgba(153, 102, 255, 0.6)', // Delcourt - Violet
-                'rgba(255, 159, 64, 0.6)',  // Doki Doki - Orange foncé
-                'rgba(54, 162, 235, 0.6)',  // Pika- Bleu
-                'rgba(153, 102, 50, 0.6)',   // Ki-oon - Brun clair
-                'rgba(153, 0, 51, 0.6)'   // autres - 
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',  // Akata
-                'rgba(255, 102, 0, 1)',   // Crunchyroll
-                'rgba(255, 206, 86, 1)',  // Kana
-                'rgba(75, 192, 192, 1)',  // GLÉNAT
-                'rgba(102, 153, 153, 1)', // Kurokawa
-
-                'rgba(153, 102, 255, 1)', // Delcourt
-                'rgba(255, 159, 64, 1)',  // Doki Doki
-                'rgba(54, 162, 235, 1)',  // Hachette
-                'rgba(153, 102, 50, 1)',   // Ki-oon
-                'rgba(153, 0, 51, 1)',   // autre
-            ],
-            borderWidth: 1 // Épaisseur des bordures
-        }]
-        
-    },
     
-    options: {
-        responsive: true, // Le graphique s'adapte à la taille de l'écran
-        plugins: {
-            legend: {
-                position: 'top', // Position de la légende
-            },
-            tooltip: {
-                enabled: true // Active les info-bulles
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Graphique des Éditeurs</h2>
+        <canvas id="editorChart"></canvas>
+    </div>
+
+      <script>
+    window.onload = function() {
+        // Récupérer les données de localStorage
+        const chartData = JSON.parse(localStorage.getItem('chartData')) || {
+            labels: ['Casterman', 'Delcourt', 'Pika', 'Soleil', 'Glénat', 'Kana', 'Kurokawa', 'Shiba', 'nobi nobi!', 'Tonkam', 'Panini', 'Hachette', 'Kaze', 'Ki-oon', 'Solar'],
+            values: Array(15).fill(0) // Initialisation avec 0
+        };
+
+        // Configuration du graphique
+        const editorData = {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Nombre de livres',
+                data: chartData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(199, 199, 199, 0.2)',
+                    'rgba(83, 102, 255, 0.2)',
+                    'rgba(101, 163, 255, 0.2)',
+                    'rgba(255, 87, 34, 0.2)',
+                    'rgba(171, 71, 188, 0.2)',
+                    'rgba(100, 181, 246, 0.2)',
+                    'rgba(77, 182, 172, 0.2)',
+                    'rgba(255, 241, 118, 0.2)',
+                    'rgba(255, 138, 101, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(199, 199, 199, 1)',
+                    'rgba(83, 102, 255, 1)',
+                    'rgba(101, 163, 255, 1)',
+                    'rgba(255, 87, 34, 1)',
+                    'rgba(171, 71, 188, 1)',
+                    'rgba(100, 181, 246, 1)',
+                    'rgba(77, 182, 172, 1)',
+                    'rgba(255, 241, 118, 1)',
+                    'rgba(255, 138, 101, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Configuration du graphique
+        const config = {
+            type: 'bar',
+            data: editorData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nombre de livres'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Éditeurs'
+                        }
+                    }
+                }
             }
-        }
-    }
-});
+        };
+
+        // Initialiser le graphique
+        const ctx = document.getElementById('editorChart').getContext('2d');
+        new Chart(ctx, config);
+    };
+</script>
 
     </script>
-   
-    
-    <!-- Inclure les scripts Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <div class="container mt-4 bg-primary">
-        Modale de modification 
-<div class="modal fade" id="editTomeModal" tabindex="-1" aria-labelledby="editTomeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        </div></div></div> -->
-
-
-
-<footer class="py-3 my-4">
-    <p class="text-center text-body-secondary">© 2024 Mangatecheque, By DragonBleu98</p>
-</footer>
 </body>
-
 </html>

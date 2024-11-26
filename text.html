@@ -2,62 +2,118 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Page Dynamique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique des Éditeurs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="contenu">
-        <div class="article">
-            <h2>Titre de l'article 1</h2>
-            <p>Contenu de l'article 1</p>
-        </div>
-        <div class="article">
-            <h2>Titre de l'article 2</h2>
-            <p>Contenu de l'article 2</p>
-        </div>
-        <!-- Plus d'articles peuvent être ajoutés dynamiquement via JavaScript -->
+    <div class="container mt-5">
+        <h2 class="text-center">Graphique des Éditeurs</h2>
+        <canvas id="editorChart"></canvas>
     </div>
-    <script>// Fonction pour récupérer les titres des articles
-        function recupererTitres() {
-            const titres = [];  // Un tableau pour stocker les titres
-        
-            // Sélectionner tous les éléments avec la classe "article"
-            const articles = document.querySelectorAll('.article h2');
-        
-            // Parcourir les articles et récupérer le texte des titres
-            articles.forEach(article => {
-                titres.push(article.textContent);  // Ajouter chaque titre au tableau
+
+    <script>
+        // Données des éditeurs
+        const editorData = {
+            labels: ['Casterman', 'Delcourt', 'Pika', 'Soleil', 'Glénat', 'Kana', 'Kurokawa', 'Shiba', 'nobi nobi!', 'Tonkam', 'Panini', 'Hachette', 'Kaze', 'Ki-oon', 'Solar'],
+            datasets: [{
+                label: 'Nombre de livres',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(199, 199, 199, 0.2)',
+                    'rgba(83, 102, 255, 0.2)',
+                    'rgba(101, 163, 255, 0.2)',
+                    'rgba(255, 87, 34, 0.2)',
+                    'rgba(171, 71, 188, 0.2)',
+                    'rgba(100, 181, 246, 0.2)',
+                    'rgba(77, 182, 172, 0.2)',
+                    'rgba(255, 241, 118, 0.2)',
+                    'rgba(255, 138, 101, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(199, 199, 199, 1)',
+                    'rgba(83, 102, 255, 1)',
+                    'rgba(101, 163, 255, 1)',
+                    'rgba(255, 87, 34, 1)',
+                    'rgba(171, 71, 188, 1)',
+                    'rgba(100, 181, 246, 1)',
+                    'rgba(77, 182, 172, 1)',
+                    'rgba(255, 241, 118, 1)',
+                    'rgba(255, 138, 101, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Configuration du graphique
+        const config = {
+            type: 'bar',
+            data: editorData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nombre de livres'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Éditeurs'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Initialiser le graphique
+        window.onload = function() {
+            const ctx = document.getElementById('editorChart').getContext('2d');
+            new Chart(ctx, config);
+        };
+
+        // Fonctions pour manipuler les données dynamiquement
+        function addData(chart, label, newData) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(newData);
             });
-        
-            return titres;
+            chart.update();
         }
-        
-        // Afficher les titres dans la console
-        console.log(recupererTitres());
-        
-        // Supposons qu'un nouvel article soit ajouté dynamiquement
-        setTimeout(() => {
-            const nouveauArticle = document.createElement('div');
-            nouveauArticle.classList.add('article');
-            nouveauArticle.innerHTML = `<h2>Titre de l'article 3</h2><p>Contenu de l'article 3</p>`;
-        
-            // Ajouter le nouvel article à la page
-            document.getElementById('contenu').appendChild(nouveauArticle);
-        
-            // Re-récupérer les titres après l'ajout dynamique
-            console.log(recupererTitres());
-        }, 2000);  // Ajouter un nouvel article après 2 secondes
 
-        // Exemple avec fetch pour récupérer des données via AJAX
-fetch('https://exemple.com/api/articles')
-    .then(response => response.json())  // Assumer que la réponse est au format JSON
-    .then(data => {
-        // Stocker les titres dans un tableau
-        const titres = data.map(article => article.titre);
-        console.log(titres);
-    })
-    .catch(error => console.error('Erreur de récupération des données:', error));
-
-        </script>
-   
+        function removeData(chart) {
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
+    </script>
 </body>
 </html>
+
+
+
+
